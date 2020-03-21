@@ -15,8 +15,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class FirstTest {
@@ -28,27 +26,25 @@ public class FirstTest {
     {
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
-        capabilities.setCapability("platformName","Android");
-        capabilities.setCapability("deviceName","AndroidTestDevice");
-        capabilities.setCapability("platformVersion","6.0");
-        capabilities.setCapability("automationName","Appium");
-        capabilities.setCapability("appPackage","org.wikipedia");
-        capabilities.setCapability("appActivity",".main.MainActivity");
-        capabilities.setCapability("app","/Users/ddv/Desktop/JavaAppiumAuto/apks/org.wikipedia.apk");
+        capabilities.setCapability("platformName", "Android");
+        capabilities.setCapability("deviceName", "AndroidTestDevice");
+        capabilities.setCapability("platformVersion", "6.0");
+        capabilities.setCapability("automationName", "Appium");
+        capabilities.setCapability("appPackage", "org.wikipedia");
+        capabilities.setCapability("appActivity", ".main.MainActivity");
+        capabilities.setCapability("app", "/Users/ddv/Desktop/JavaAppiumAuto/apks/org.wikipedia.apk");
 
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
 
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         driver.quit();
     }
 
     @Test
-    public void firstTest()
-    {
+    public void firstTest() {
         waitForElementAndClick(
                 By.xpath("//*[contains(@text,'Search Wikipedia')]"),
                 "Cannot find Search Wikipedia input",
@@ -71,8 +67,7 @@ public class FirstTest {
     }
 
     @Test
-    public void testCancelSearch()
-    {
+    public void testCancelSearch() {
         waitForElementAndClick(
                 By.id("org.wikipedia:id/search_container"),
                 "Cannot find 'Search Wikipedia' input",
@@ -107,8 +102,7 @@ public class FirstTest {
     }
 
     @Test
-    public void testCompareArticleTitle()
-    {
+    public void testCompareArticleTitle() {
         waitForElementAndClick(
                 By.xpath("//*[contains(@text,'Search Wikipedia')]"),
                 "Cannot find Search Wikipedia input",
@@ -144,8 +138,7 @@ public class FirstTest {
     }
 
     @Test
-    public void testSearchPresent()
-    {
+    public void testSearchPresent() {
         waitForElementAndClick(
                 By.id("org.wikipedia:id/search_container"),
                 "Cannot find Search Wikipedia input",
@@ -169,8 +162,7 @@ public class FirstTest {
     }
 
     @Test
-    public void testSearchAndCancel()
-    {
+    public void testSearchAndCancel() {
         waitForElementAndClick(
                 By.id("org.wikipedia:id/search_container"),
                 "Cannot find Search Wikipedia input",
@@ -204,8 +196,7 @@ public class FirstTest {
     }
 
     @Test
-    public void testSwipeArticleTitle()
-    {
+    public void testSwipeArticleTitle() {
         waitForElementAndClick(
                 By.xpath("//*[contains(@text,'Search Wikipedia')]"),
                 "Cannot find Search Wikipedia input",
@@ -240,8 +231,7 @@ public class FirstTest {
     }
 
     @Test
-    public void testSearchWord()
-    {
+    public void testSearchWord() {
         waitForElementAndClick(
                 By.id("org.wikipedia:id/search_container"),
                 "Cannot find Search Wikipedia input",
@@ -265,138 +255,136 @@ public class FirstTest {
 
     }
 
-       @Test
-       public void saveFirstArticleToMyList()
-       {
-           waitForElementAndClick(
-                   By.xpath("//*[contains(@text,'Search Wikipedia')]"),
-                   "Cannot find Search Wikipedia input",
-                   5
-           );
+    @Test
+    public void saveFirstArticleToMyList() {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find Search Wikipedia input",
+                5
+        );
 
-           waitForElementAndSendKeys(
-                   By.xpath("//*[contains(@text,'Search…')]"),
-                   "Java",
-                   "Cannot find search input",
-                   5
-           );
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                "Java",
+                "Cannot find search input",
+                5
+        );
 
-           waitForElementAndClick(
-                   By.xpath("//*[@resource-id='org.wikipedia:id/search_results_container']//*[@text='Object-oriented programming language']"),
-                   "Cannot find Search Wikipedia input",
-                   5
-           );
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/search_results_container']//*[@text='Object-oriented programming language']"),
+                "Cannot find Search Wikipedia input",
+                5
+        );
 
-           waitForElementPresent(
-                   By.id("org.wikipedia:id/view_page_title_text"),
-                   "Cannot find article title",
-                   5
-           );
+        waitForElementPresent(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "Cannot find article title",
+                5
+        );
 
-           waitForElementAndClick(
-                   By.xpath("//android.widget.ImageView[@content-desc='More options']"),
-                   "Cannot find button to open article options",
-                   5
-            );
+        waitForElementAndClick(
+                By.xpath("//android.widget.ImageView[@content-desc='More options']"),
+                "Cannot find button to open article options",
+                5
+        );
 
-           waitForElementAndClick(
-                   By.xpath("//*[@text='Add to reading list']"),
-                   "Cannot find options to add article to reading",
-                   5
-           );
+        waitForElementAndClick(
+                By.xpath("//*[@text='Add to reading list']"),
+                "Cannot find options to add article to reading",
+                5
+        );
 
-           waitForElementAndClick(
-                   By.id("org.wikipedia:id/onboarding_button"),
-                   "Cannot find 'Got it' tip overlay",
-                   5
-           );
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/onboarding_button"),
+                "Cannot find 'Got it' tip overlay",
+                5
+        );
 
-           waitForElementAndClear(
-                   By.id("org.wikipedia:id/text_input"),
-                   "Cannot find input to set name of articles folder",
-                   5
-           );
+        waitForElementAndClear(
+                By.id("org.wikipedia:id/text_input"),
+                "Cannot find input to set name of articles folder",
+                5
+        );
 
-           String name_of_folder = "Learning programming";
+        String name_of_folder = "Learning programming";
 
-           waitForElementAndSendKeys(
-                   By.id("org.wikipedia:id/text_input"),
-                   name_of_folder,
-                   "Cannot put text into articles folder input",
-                   5
-           );
+        waitForElementAndSendKeys(
+                By.id("org.wikipedia:id/text_input"),
+                name_of_folder,
+                "Cannot put text into articles folder input",
+                5
+        );
 
-           waitForElementAndClick(
-                   By.xpath("//*[@text='OK']"),
-                   "Cannot press 'OK' button",
-                   5
-           );
+        waitForElementAndClick(
+                By.xpath("//*[@text='OK']"),
+                "Cannot press 'OK' button",
+                5
+        );
 
-           waitForElementAndClick(
-                   By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
-                   "Cannot close article, cannot find X link",
-                   5
-           );
+        waitForElementAndClick(
+                By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
+                "Cannot close article, cannot find X link",
+                5
+        );
 
-           waitForElementAndClick(
-                   By.xpath("//android.widget.FrameLayout[@content-desc='My lists']"),
-                   "Cannot find navigation button to My Lists",
-                   5
-           );
+        waitForElementAndClick(
+                By.xpath("//android.widget.FrameLayout[@content-desc='My lists']"),
+                "Cannot find navigation button to My Lists",
+                5
+        );
 
-           waitForElementAndClick(
-                   By.xpath("//*[@text='" + name_of_folder + "']"),
-                   "Cannot find created folder",
-                   10
-           );
+        waitForElementAndClick(
+                By.xpath("//*[@text='" + name_of_folder + "']"),
+                "Cannot find created folder",
+                10
+        );
 
-           swipeElementToLeft(
-                   By.xpath("//*[@text='Java (programming language)']"),
-                   "Cannot find saved article"
-           );
+        swipeElementToLeft(
+                By.xpath("//*[@text='Java (programming language)']"),
+                "Cannot find saved article"
+        );
 
-           waitForElementNotPresent(
-                   By.xpath("//*[@text='Java (programming language)']"),
-                   "Cannot delete saved article",
-                   5
-           );
+        waitForElementNotPresent(
+                By.xpath("//*[@text='Java (programming language)']"),
+                "Cannot delete saved article",
+                5
+        );
 
-       }
+    }
 
-       @Test
-       public void testAmountOfNotEmptySearch()
-       {
-           waitForElementAndClick(
-                   By.xpath("//*[contains(@text,'Search Wikipedia')]"),
-                   "Cannot find Search Wikipedia input",
-                   5
-           );
+    @Test
+    public void testAmountOfNotEmptySearch() {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find Search Wikipedia input",
+                5
+        );
 
 
-           String search_line = "Linkin Park Discography";
-           waitForElementAndSendKeys(
-                   By.xpath("//*[contains(@text,'Search…')]"),
-                   search_line,
-                   "Cannot find search input",
-                   5
-           );
+        String search_line = "Linkin Park Discography";
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                search_line,
+                "Cannot find search input",
+                5
+        );
 
-           String search_result_locator = "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']";
-           waitForElementPresent(
-                   By.xpath(search_result_locator),
-                   "Cannot find anything by the request" + search_line,
-                   15
-           );
+        String search_result_locator = "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']";
+        waitForElementPresent(
+                By.xpath(search_result_locator),
+                "Cannot find anything by the request" + search_line,
+                15
+        );
 
-           int amount_of_research_results = getAmountOfElements(
-                   By.xpath(search_result_locator)
-           );
+        int amount_of_research_results = getAmountOfElements(
+                By.xpath(search_result_locator)
+        );
 
-           Assert.assertTrue(
-                   "We found too few results!",
-                   amount_of_research_results > 0
-           );
-       }
+        Assert.assertTrue(
+                "We found too few results!",
+                amount_of_research_results > 0
+        );
+    }
 
     @Test
     public void testAmountOfEmptySearch() {
@@ -430,8 +418,7 @@ public class FirstTest {
     }
 
     @Test
-    public void testChangeScreenOrientationOnSearchResults()
-    {
+    public void testChangeScreenOrientationOnSearchResults() {
         waitForElementAndClick(
                 By.xpath("//*[contains(@text,'Search Wikipedia')]"),
                 "Cannot find Search Wikipedia input",
@@ -492,8 +479,7 @@ public class FirstTest {
     }
 
     @Test
-    public void testCheckSearchArticleInBackground()
-    {
+    public void testCheckSearchArticleInBackground() {
         waitForElementAndClick(
                 By.xpath("//*[contains(@text,'Search Wikipedia')]"),
                 "Cannot find Search Wikipedia input",
