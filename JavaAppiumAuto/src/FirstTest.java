@@ -202,7 +202,7 @@ public class FirstTest {
                 5
         );
     }
-    
+
     @Test
     public void testSwipeArticleTitle()
     {
@@ -235,6 +235,32 @@ public class FirstTest {
                 By.xpath("//*[@text='View page in browser']"),
                 "Cannot find the end of the article",
                 10
+        );
+
+    }
+
+    @Test
+    public void testSearchWord()
+    {
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find Search Wikipedia input",
+                5
+        );
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                "Git",
+                "Cannot find search input",
+                5
+        );
+
+        waitForElementContains(
+                By.id("org.wikipedia:id/page_list_item_title"),
+                "text",
+                "Git",
+                "Cannot contain 'Git'",
+                15
         );
 
     }
@@ -558,6 +584,23 @@ public class FirstTest {
     protected void swipeUpQuick()
     {
         swipeUp(200);
+    }
+
+    private void waitForElementContains(By by, String attribute, String value, String error_message, long timeoutInSeconds)
+    {
+        List <WebElement> elements = driver.findElements(by);
+
+        for (int i = 0; i < elements.size(); i++)
+        {
+            String element = elements.get(i).getAttribute(attribute);
+
+            if (element.contains(value))
+            {
+                System.out.println("Значение элемента " + i + " равное " + element + " содержит " +value);
+            }
+            else throw new AssertionError(error_message);
+        }
+        return;
     }
 
     protected void swipeUpToFindElement(By by, String error_message, int max_swipes)
