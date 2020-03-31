@@ -14,7 +14,8 @@ public class SearchPageObject extends MainPageObject
     SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']",
     SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text='No results found']",
     SEARCH_INPUT_DEFAULT_TEXT = "org.wikipedia:id/search_src_text",
-    SEARCH_RESULT_LIST = "//*[@resource-id='org.wikipedia:id/search_results_list']";
+    SEARCH_RESULT_LIST = "//*[@resource-id='org.wikipedia:id/search_results_list']",
+    SEARCH_RESULTS_LIST_TITLE = "org.wikipedia:id/page_list_item_title";
 
     public SearchPageObject(AppiumDriver driver)
     {
@@ -101,5 +102,16 @@ public class SearchPageObject extends MainPageObject
     {
         WebElement text_element = this.waitForElementPresent(By.id(SEARCH_INPUT_DEFAULT_TEXT), "Cannot find search input after clicking search init element");
         return text_element.getAttribute("text");
+    }
+
+    public void checkContainSearchElementInResultsList(String search_attribute, String search_line)
+    {
+        this.waitForElementContains(
+                By.id(SEARCH_RESULTS_LIST_TITLE),
+                search_attribute,
+                search_line,
+                "Cannot contain search line: " + search_line,
+                15
+        );
     }
 }
