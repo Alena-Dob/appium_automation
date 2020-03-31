@@ -15,9 +15,15 @@ public class ArticlePageObject extends MainPageObject{
     ADD_TO_MY_LIST_OVERLAY = "org.wikipedia:id/onboarding_button",
     MY_LIST_NAME_INPUT = "org.wikipedia:id/text_input",
     MY_LIST_OK_BUTTON = "//*[@text='OK']",
-    CLOSE_ARTICLE_BUTTON = "//android.widget.ImageButton[@content-desc='Navigate up']";
+    CLOSE_ARTICLE_BUTTON = "//android.widget.ImageButton[@content-desc='Navigate up']",
+    SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/list_of_lists']//*[@text='{SUBSTRING}']";
 
-
+    /* TEMPLATES METHODS */
+    private static String getResultSearchElement(String substring)
+    {
+        return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
+    }
+    /* TEMPLATES METHODS */
 
     public ArticlePageObject(AppiumDriver driver)
     {
@@ -82,6 +88,24 @@ public class ArticlePageObject extends MainPageObject{
                 "Cannot press 'OK' button",
                 5
         );
+    }
+
+    public void addAnotherArticleToMyList(String name_of_folder)
+    {
+        this.waitForElementAndClick(
+                By.xpath(OPTIONS_BUTTON),
+                "Cannot find button to open article options",
+                5
+        );
+
+        this.waitForElementAndClick(
+                By.xpath(OPTIONS_ADD_TO_MY_LIST_BUTTON),
+                "Cannot find options to add article to reading",
+                5
+        );
+
+        String search_result_xpath = getResultSearchElement(name_of_folder);
+        this.waitForElementAndClick(By.xpath(search_result_xpath), "Cannot find search list to save " + name_of_folder,10);
     }
 
     public void closeArticle()
