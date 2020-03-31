@@ -4,6 +4,8 @@ import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
 public class SearchPageObject extends MainPageObject
 {
     private static final String
@@ -113,5 +115,15 @@ public class SearchPageObject extends MainPageObject
                 "Cannot contain search line: " + search_line,
                 15
         );
+    }
+
+    public void assertElementPresent(By by, String error_message)
+    {
+        List elements = driver.findElements(by);
+
+        if (elements.size() < 1 ) {
+            String default_message = "An element '" + by.toString() + "' supposed to be not present";
+            throw new AssertionError(default_message + " " + error_message);
+        }
     }
 }

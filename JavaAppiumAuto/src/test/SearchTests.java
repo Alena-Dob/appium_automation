@@ -3,6 +3,7 @@ package test;
 import lib.CoreTestCase;
 import lib.ui.SearchPageObject;
 import org.junit.Test;
+import org.openqa.selenium.By;
 
 public class SearchTests extends CoreTestCase
 {
@@ -88,5 +89,20 @@ public class SearchTests extends CoreTestCase
         SearchPageObject.typeSearchLine(search_line);
         SearchPageObject.waitForSearchListToAppear(search_line);
         SearchPageObject.checkContainSearchElementInResultsList(search_attribute, search_line);
+    }
+
+    @Test
+    public void testAssertTitleWithoutWait() {
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+
+        SearchPageObject.initSearchInput();
+        SearchPageObject.typeSearchLine("Cooking");
+        SearchPageObject.clickByArticleWithSubstring("Cooking oil");
+        String title_locator = "//*[@resource-id='org.wikipedia:id/view_page_header_container']/*[@resource-id='org.wikipedia:id/view_page_title_text']";
+
+        SearchPageObject.assertElementPresent(
+                By.xpath(title_locator),
+                "We haven't found title"
+        );
     }
 }
