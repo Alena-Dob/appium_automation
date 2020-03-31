@@ -50,4 +50,19 @@ public class SearchTests extends CoreTestCase
         SearchPageObject.waitForEmptyResultsLabel();
         SearchPageObject.assertThereIsNoResultOfSearch();
     }
+
+    @Test
+    public void testSearchPresent() {
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+
+        SearchPageObject.initSearchInput();
+        String search_text = SearchPageObject.getSearchInputDefaultText();
+
+        assertEquals(
+                "We see unexpected text!",
+                "Search…",
+                search_text
+        );
+
+    }
 }
