@@ -13,7 +13,8 @@ public class SearchPageObject extends MainPageObject
     SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/search_results_container']//*[@text='{SUBSTRING}']",
     SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']",
     SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text='No results found']",
-    SEARCH_INPUT_DEFAULT_TEXT = "org.wikipedia:id/search_src_text";
+    SEARCH_INPUT_DEFAULT_TEXT = "org.wikipedia:id/search_src_text",
+    SEARCH_RESULT_LIST = "//*[@resource-id='org.wikipedia:id/search_results_list']";
 
     public SearchPageObject(AppiumDriver driver)
     {
@@ -56,13 +57,23 @@ public class SearchPageObject extends MainPageObject
     public void waitForSearchResult(String substring)
     {
         String search_result_xpath = getResultSearchElement(substring);
-        this.waitForElementPresent(By.xpath(search_result_xpath), "Cannot find search result with substring" + substring);
+        this.waitForElementPresent(By.xpath(search_result_xpath), "Cannot find search result with substring " + substring);
+    }
+
+    public void waitForSearchListToAppear(String search_line)
+    {
+        this.waitForElementPresent(By.xpath(SEARCH_RESULT_LIST), "Cannot find results for " + search_line, 5);
+    }
+
+    public void waitForSearchListToDisappear()
+    {
+        this.waitForElementNotPresent(By.xpath(SEARCH_RESULT_LIST), "Results still present on the page", 5);
     }
 
     public void clickByArticleWithSubstring(String substring)
     {
         String search_result_xpath = getResultSearchElement(substring);
-        this.waitForElementAndClick(By.xpath(search_result_xpath), "Cannot find search result with substring" + substring, 10);
+        this.waitForElementAndClick(By.xpath(search_result_xpath), "Cannot find search result with substring " + substring, 10);
     }
 
     public int getAmountOfFoundArticles()

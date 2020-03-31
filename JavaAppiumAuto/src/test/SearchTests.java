@@ -63,6 +63,18 @@ public class SearchTests extends CoreTestCase
                 "Search…",
                 search_text
         );
+    }
 
+    @Test
+    public void testSearchAndCancel() {
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        
+        SearchPageObject.initSearchInput();
+        String search_line = "Git";
+        SearchPageObject.typeSearchLine(search_line);
+        SearchPageObject.waitForSearchListToAppear(search_line);
+        SearchPageObject.waitForCancelButtonToAppear();
+        SearchPageObject.clickCancelSearch();
+        SearchPageObject.waitForSearchListToDisappear();
     }
 }
