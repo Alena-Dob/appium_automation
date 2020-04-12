@@ -8,6 +8,7 @@ abstract public class MyListsPageObject extends MainPageObject {
     protected static String
     FOLDER_BY_NAME_TPL,
     ARTICLE_BY_TITLE_TPL,
+    SECOND_ARTICLE_BY_TITLE_TPL,
     CLOSE_BUTTON_IN_WINDOW_ON_SAVED_ARTICLES;
 
     private static String getFolderXpathByName(String name_of_folder)
@@ -18,6 +19,10 @@ abstract public class MyListsPageObject extends MainPageObject {
     private static String getSavedArticleXpathByTitle(String article_title)
     {
         return ARTICLE_BY_TITLE_TPL.replace("{TITLE}", article_title);
+    }
+    private static String getSecondSavedArticleXpathByTitle(String article_title)
+    {
+        return SECOND_ARTICLE_BY_TITLE_TPL.replace("{SECOND_TITLE}", article_title);
     }
 
     public MyListsPageObject(AppiumDriver driver)
@@ -41,9 +46,21 @@ abstract public class MyListsPageObject extends MainPageObject {
         this.waitForElementPresent(article_xpath, "Cannot find saved article by title: " + article_title, 15);
     }
 
+    public void waitForSecondArticleToAppearByTitle(String article_title)
+    {
+        String article_xpath = getSecondSavedArticleXpathByTitle(article_title);
+        this.waitForElementPresent(article_xpath, "Cannot find saved article by title: " + article_title, 15);
+    }
+
     public void waitForArticleToDisappearByTitle(String article_title)
     {
         String article_xpath = getSavedArticleXpathByTitle(article_title);
+        this.waitForElementNotPresent(article_xpath, "Saved article still present with title: " + article_title, 15);
+    }
+
+    public void waitForSecondArticleToDisappearByTitle(String article_title)
+    {
+        String article_xpath = getSecondSavedArticleXpathByTitle(article_title);
         this.waitForElementNotPresent(article_xpath, "Saved article still present with title: " + article_title, 15);
     }
 
@@ -60,6 +77,20 @@ abstract public class MyListsPageObject extends MainPageObject {
             this.clickElementToTheRightUpperCorner(article_xpath, "Cannot find save article");
         }
         this.waitForArticleToDisappearByTitle(article_title);
+    }
+    public void swipeBySecondArticleToDelete(String article_title)
+    {
+        this.waitForSecondArticleToAppearByTitle(article_title);
+        String article_xpath = getSecondSavedArticleXpathByTitle(article_title);
+        this.swipeElementToLeft(
+                article_xpath,
+                "Cannot find saved article"
+        );
+
+        if (Platform.getInstance().isIOS()){
+            this.clickElementToTheRightUpperCorner(article_xpath, "Cannot find save article");
+        }
+        this.waitForSecondArticleToDisappearByTitle(article_title);
     }
 
     public void clickByArticle(String article_title)

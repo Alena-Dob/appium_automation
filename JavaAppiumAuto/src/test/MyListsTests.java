@@ -28,6 +28,55 @@ public class MyListsTests extends CoreTestCase
         ArticlePageObject.waitForTitleElement();
         String article_title = ArticlePageObject.getArticleTitle();
 
+        if (Platform.getInstance().isAndroid()) {
+            ArticlePageObject.addArticleToMyList(name_of_folder);
+        } else {
+            ArticlePageObject.addArticleToMySaved();
+        }
+
+        ArticlePageObject.closeArticle();
+
+        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
+        NavigationUI.clickMyLists();
+
+        MyListsPageObject MyListsPageObject = MyListsPageObjectFactory.get(driver);
+        if (Platform.getInstance().isAndroid()) {
+            MyListsPageObject.openFolderByName(name_of_folder);
+        }
+        if (Platform.getInstance().isIOS()) {
+            MyListsPageObject.closeWindowOnMyListsScreen();
+        }
+        MyListsPageObject.swipeByArticleToDelete(article_title);
+    }
+
+    @Test
+    public void testSaveTwoArticlesToOneList() {
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
+
+        SearchPageObject.initSearchInput();
+
+        String name_of_first_title = "Java (programming language)";
+        String name_of_second_title = "Java version history";
+
+        SearchPageObject.typeSearchLine("Java");
+        SearchPageObject.clickByArticleWithSubstring(name_of_first_title);
+
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
+        ArticlePageObject.waitForTitleElement();
+        String name_of_folder = "Java articles";
+
+        if(Platform.getInstance().isAndroid()) {
+            ArticlePageObject.addArticleToMyList(name_of_folder);
+        } else {
+            ArticlePageObject.addArticleToMySaved();
+        }
+
+        ArticlePageObject.closeArticle();
+
+        SearchPageObject.initSearchInput();
+        SearchPageObject.typeSearchLine("Java");
+        SearchPageObject.clickByArticleWithSubstring(name_of_second_title);
+        ArticlePageObject.waitForTitleElement();
         if(Platform.getInstance().isAndroid()) {
             ArticlePageObject.addAnotherArticleToMyList(name_of_folder);
         } else {
@@ -46,55 +95,32 @@ public class MyListsTests extends CoreTestCase
         if (Platform.getInstance().isIOS()) {
             MyListsPageObject.closeWindowOnMyListsScreen();
         }
-            MyListsPageObject.swipeByArticleToDelete(article_title);
 
-
-    }
-
-    @Test
-    public void testSaveTwoArticlesToOneList() {
-        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
-
-        SearchPageObject.initSearchInput();
-
-        String name_of_first_title = "Cooking";
-        String name_of_second_title = "Cooking banana";
-
-        SearchPageObject.typeSearchLine("Cooking");
-        SearchPageObject.clickByArticleWithSubstring(name_of_first_title);
-
-        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
-        ArticlePageObject.waitForTitleElement();
-        String name_of_folder = "Cooking articles";
-
-        if(Platform.getInstance().isAndroid()) {
-            ArticlePageObject.addAnotherArticleToMyList(name_of_folder);
-        } else {
-            ArticlePageObject.addArticleToMySaved();
+        if (Platform.getInstance().isAndroid()) {
+            MyListsPageObject.swipeByArticleToDelete(name_of_first_title);
+        }
+        if (Platform.getInstance().isIOS()) {
+            MyListsPageObject.swipeBySecondArticleToDelete(name_of_first_title);
         }
 
-        ArticlePageObject.closeArticle();
+        if (Platform.getInstance().isAndroid()) {
+            MyListsPageObject.clickByArticle(name_of_second_title);
+            String article_title = ArticlePageObject.getArticleTitle();
 
-        SearchPageObject.initSearchInput();
-        SearchPageObject.typeSearchLine("Cooking");
-        SearchPageObject.clickByArticleWithSubstring(name_of_second_title);
-        ArticlePageObject.waitForTitleElement();
-        ArticlePageObject.addAnotherArticleToMyList(name_of_folder);
-        ArticlePageObject.closeArticle();
+            assertEquals(
+                    "We see unexpected title!",
+                    name_of_second_title,
+                    article_title
+            );
+        }
+        if (Platform.getInstance().isIOS()) {
+            NavigationUI.clickExplore();
+            SearchPageObject.initSearchInput();
+            SearchPageObject.typeSearchLine("Java");
+            SearchPageObject.clickByArticleWithSubstring(name_of_second_title);
+            ArticlePageObject.waitSavedToMyListButtonOnArticleScreen();
 
-        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
-        NavigationUI.clickMyLists();
+        }
 
-        MyListsPageObject MyListsPageObject = MyListsPageObjectFactory.get(driver);
-        MyListsPageObject.openFolderByName(name_of_folder);
-        MyListsPageObject.swipeByArticleToDelete(name_of_first_title);
-        MyListsPageObject.clickByArticle(name_of_second_title);
-        String article_title = ArticlePageObject.getArticleTitle();
-
-        assertEquals(
-                "We see unexpected title!",
-                name_of_second_title,
-                article_title
-        );
     }
 }

@@ -8,6 +8,7 @@ abstract public class ArticlePageObject extends MainPageObject{
 
     protected static String
     TITLE,
+    SECOND_TITLE,
     FOOTER_ELEMENT,
     OPTIONS_BUTTON ,
     OPTIONS_ADD_TO_MY_LIST_BUTTON,
@@ -15,6 +16,7 @@ abstract public class ArticlePageObject extends MainPageObject{
     MY_LIST_NAME_INPUT,
     MY_LIST_OK_BUTTON,
     CLOSE_ARTICLE_BUTTON,
+    SAVED_TO_BY_LIST_BUTTON,
     SEARCH_RESULT_BY_SUBSTRING_TPL;
 
     /* TEMPLATES METHODS */
@@ -131,6 +133,11 @@ abstract public class ArticlePageObject extends MainPageObject{
                 "Cannot close article, cannot find X link",
                 5
         );
+    }
+
+    public void waitSavedToMyListButtonOnArticleScreen()
+    {
+        this.waitForElementPresent(SAVED_TO_BY_LIST_BUTTON, "Cannot find button to unsave article", 5);
     }
 
 }
